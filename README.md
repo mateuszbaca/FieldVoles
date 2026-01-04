@@ -1,4 +1,4 @@
-# FieldVoles
+# Field voles - genomics
 This repository contains commands and scripts used in the analyses presented in: 
 
 Baca M, Bujalska B, Popović D, Golubiński M, Alves PC, Bard E, Berto C, Cuenca-Bescós G, Dalén L, Fewlass H, Fadeeva T, Herman J, Horáček I, Krajcarz M, Law M, Lemanik A, López-García JM, Luzi L, Murelaga X, Mahmoudi A, Peresani M, Parfitt S, Pauperio J, Pavlova SV, Pazonyi P, Rodríguez IR, Searle JB, Stojak J, Strukova T, Wójcik JM, Nadachowski A. The evolutionary history of the field vole species complex revealed by modern and ancient genomes. 2025 Genome Biology
@@ -7,6 +7,8 @@ Baca M, Bujalska B, Popović D, Golubiński M, Alves PC, Bard E, Berto C, Cuenca
 1. Multidimensional Scaling Plot
  - Compute identiti-by-state matrix:
 	time -p  ${angsd}/angsd  -minMapQ 25 -minQ 25 -uniqueOnly 1 -remove_bads 1  -nThreads 4  -GL 2 -doGlf 2 -doMajorMinor 1 -doMaf 2 -SNP_pval 1e-6 -doIBS 1 -doCounts 1  -makeMatrix 1 -doCov 1 -out AGR_MDS_MicOch -minFreq 0.08 -rmTrans 1 -minInd 25  -rf /path/MicOch_1Mscaf_nosex.txt -bam /path/AGR_BAMS_MicOch_noOut.txt
+
+IBS matrix was visualised as a MDS plot using cmdscale and ggplot functions in R.  
 
 2. Generate SNP dataset: 
 
@@ -42,3 +44,6 @@ Baca M, Bujalska B, Popović D, Golubiński M, Alves PC, Bard E, Berto C, Cuenca
  - Compute SAF files:
 	time -p ${angsd}/angsd -i '/path/input.bam' -anc '/path/M_agrestis_GCA_902806775_genomic_MT.fa' -dosaf 1 -fold 1 -rf '/path/AGRnuc_contigs_noXY_100kb.txt' -out  ${i%_AGRnuc_merged_nodup_realign.bam}.het -gl 2  -minQ 20 -minmapq 25 -skiptriallelic 1 -uniqueonly 1 -setMinDepthInd 5 -doMajorMinor 1
  - Compute folded SFS:
+
+5. AdmixtureBayes:
+   
