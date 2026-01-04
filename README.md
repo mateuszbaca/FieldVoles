@@ -1,5 +1,8 @@
 # FieldVoles
-Commands and scripts used in the Field vole paper
+This repository contains commands and scripts used in the analyses presented in: 
+
+Baca M, Bujalska B, Popović D, Golubiński M, Alves PC, Bard E, Berto C, Cuenca-Bescós G, Dalén L, Fewlass H, Fadeeva T, Herman J, Horáček I, Krajcarz M, Law M, Lemanik A, López-García JM, Luzi L, Murelaga X, Mahmoudi A, Peresani M, Parfitt S, Pauperio J, Pavlova SV, Pazonyi P, Rodríguez IR, Searle JB, Stojak J, Strukova T, Wójcik JM, Nadachowski A. The evolutionary history of the field vole species complex revealed by modern and ancient genomes. 2025 Genome Biology
+
 
 1. Multidimensional Scaling Plot
  - Compute identiti-by-state matrix:
