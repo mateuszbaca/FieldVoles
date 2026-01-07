@@ -36,17 +36,51 @@ IBS matrix was visualised as a MDS plot using cmdscale and ggplot functions in R
  
  	${angsd}/misc/haploToplink yourfile_haplo.gz plink_file_steam
  
-4. Generate input file and run TreeMix:
+3. Generate input file and run TreeMix:
 
  - Convert plink to treemix format:
  		- generate cluster file:
 			./plink -tfile  plink_steam --write-cluster --family --allow-extra-chr -out out_steam --missing-genotype N
+
+4. TreeMix
+	- For OptM run 5 replicates, randomly sampling 70% of SNPS for each replicate. This is to introduce variation in ML estimates for each replicate.
+
+     for m in {0..9}; do
+    for i in {1..5}; do
+        # Generate random seed
+        s=$RANDOM
+     
+        /home/lpcg/treemix-1.13/src/treemix -i AGR_MicOch_ALLbams_sites_out_haplo_ntrans_2all.treemix.gz -o AGR_MicOch_ALLbams_sites_out_haplo_ntrans_2all.${i}.${m} -global -m ${m} -k 10 -seed ${s}
+    done
+
+	- Run bootstrap analysis on full dataset for m=0 and m=1.
+
+	file: AGR_treemix_bootstrap_parallel.sbatch
+     
+	- Calculate bootstrap support using ape::prop.clades in R.
+     
+5. Heterozygosity:
+	 - Compute SAF files:
+   
+    ${angsd}/angsd -i '/path/input.bam' -anc '/path/M_agrestis_GCA_902806775_genomic_MT.fa' -dosaf 1 -fold 1 -rf '/path/AGRnuc_contigs_noXY_100kb.txt' -out  ${i%_AGRnuc_merged_nodup_realign.bam}.het -gl 2  -minQ 20 -minmapq 25 -skiptriallelic 1 -uniqueonly 1 -setMinDepthInd 5 -doMajorMinor 1
  
-3. Heterozygosity:
- - Compute SAF files:
-	time -p ${angsd}/angsd -i '/path/input.bam' -anc '/path/M_agrestis_GCA_902806775_genomic_MT.fa' -dosaf 1 -fold 1 -rf '/path/AGRnuc_contigs_noXY_100kb.txt' -out  ${i%_AGRnuc_merged_nodup_realign.bam}.het -gl 2  -minQ 20 -minmapq 25 -skiptriallelic 1 -uniqueonly 1 -setMinDepthInd 5 -doMajorMinor 1
- - Compute folded SFS:
+ 	- Compute folded SFS in 20Mb windows:
+	${angsd}/misc/realSFS ${i%_AGRnuc_merged_nodup_realign.bam}.het.saf.idx -nSites 20000000  >${i%_AGRnuc_merged_nodup_realign.bam}.20Mb.het.est
 
-5. AdmixtureBayes:
+6. Admixture:
+	-run 10 ADMIXTURE replicates for K=1 to 7 
 
+	file: AGR_MicOch_ADMIXTURE_sequential.batch
+
+7. AdmixBayes:
+
+	file: AGR_AdmBayes.batch
+   
+9. Dsuite:
+   
+10. Error rate:
+    
+	file:  agr_Error_angsd_MicOch.batch
+
+12. 
 
