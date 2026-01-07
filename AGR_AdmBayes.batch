@@ -1,0 +1,10 @@
+#!/bin/bash -l
+#SBATCH --job-name=AdmBay
+#SBATCH --partition=long
+#SBATCH --ntasks=16
+#SBATCH --mem 64G
+
+python3 /home/users/mbaca/anthill23_soft/AdmixtureBayes/admixturebayes/runMCMC.py --input_file AGR_MicOch_sites_filtered_LD_subset_treemix.gz --MCMC_chains 32 --n 600000 --outgroup out --result_file AGR_MicOch_sites_filtered_LD_subset_admBay1 & 
+python3 /home/users/mbaca/anthill23_soft/AdmixtureBayes/admixturebayes/runMCMC.py --input_file AGR_MicOch_sites_filtered_LD_subset_treemix.gz --MCMC_chains 32 --n 600000 --outgroup out --result_file AGR_MicOch_sites_filtered_LD_subset_admBay2 &
+python3 /home/users/mbaca/anthill23_soft/AdmixtureBayes/admixturebayes/runMCMC.py --input_file AGR_MicOch_sites_filtered_LD_subset_treemix.gz --MCMC_chains 32 --n 600000 --outgroup out --result_file AGR_MicOch_sites_filtered_LD_subset_admBay3 &
+wait

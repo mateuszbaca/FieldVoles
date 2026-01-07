@@ -1,0 +1,26 @@
+#!/bin/bash -l
+#SBATCH --job-name=admixture
+#SBATCH --partition=long
+#SBATCH --cpus-per-task=6        
+#SBATCH --mem=32G
+#SBATCH --output=admixture-%j.out
+#SBATCH --error=admixture-%j.err
+
+# ===== SETTINGS =====
+BFILE="AGR_MicOch_sites_filtered_LD_NOoutADM"               
+KMIN=1                            # min K
+KMAX=7                            # max K
+REPS=10                           # number of replicates per K
+
+# ===== DIRECTORIES =====
+mkdir -p admixture_runs logs
+
+
+for K in $(seq $KMIN $KMAX); do
+  for REP in $(seq 1 $REPS); do
+    SEED=$RANDOM
+    time -p  /home/users/mbaca/anthill23_soft/admixture_linux-1.3.0/admixture  --cv=10 -s $SEED -j6 ${BFILE}.bed $K > logs/K${K}_rep${REP}.log 2>&1
+    mv ${BFILE}.${K}.Q admixture_runs/${BFILE}.K${K}.rep${REP}.Q
+    mv ${BFILE}.${K}.P admixture_runs/${BFILE}.K${K}.rep${REP}.P
+  done
+done
