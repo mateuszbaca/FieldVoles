@@ -1,3 +1,5 @@
+[![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
+
 # Field voles - genomics
 This repository contains commands and scripts used in the analyses presented in: 
 
@@ -46,4 +48,5 @@ IBS matrix was visualised as a MDS plot using cmdscale and ggplot functions in R
  - Compute folded SFS:
 
 5. AdmixtureBayes:
-   
+
+
